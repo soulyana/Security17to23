@@ -32,10 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                //.antMatchers("/").access("hasAuthority('USER')or hasAuthority('ADMIN')")
+                //.access("hasAuthority('USER')or hasAuthority('ADMIN')")
+                // antMatchers is a route h2... means this route and anything below it
+                // antMatchers allows access to that path
                 .antMatchers("/", "/h2-console/**").permitAll()
-                .antMatchers("/admin").access("hasAuthority('ADMIN')")
+                //allows access to sign in
                 .anyRequest().authenticated()
+                .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
